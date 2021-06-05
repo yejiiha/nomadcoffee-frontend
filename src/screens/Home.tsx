@@ -1,3 +1,4 @@
+import React from "react";
 import { isLoggedInVar } from "../apollo";
 
 function Home() {

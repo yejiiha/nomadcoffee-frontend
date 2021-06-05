@@ -1,3 +1,4 @@
+import React from "react";
 import { useReactiveVar } from "@apollo/client";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./screens/Home";
@@ -5,7 +6,7 @@ import Login from "./screens/Login";
 import NotFound from "./screens/NotFound";
 import { darkModeVar, isLoggedInVar } from "./apollo";
 import { ThemeProvider } from "styled-components";
-import { darkTheme, GlobalStyles, lightTheme } from "./styles";
+import { darkTheme, GlobalStyles, lightTheme } from "./styles/styles";
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
