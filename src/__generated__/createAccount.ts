@@ -24,5 +24,5 @@ export interface createAccountVariables {
   location: string;
   password: string;
   avatarUrl?: string | null;
-  githubUsername: string;
+  githubUsername?: string | null;
 }

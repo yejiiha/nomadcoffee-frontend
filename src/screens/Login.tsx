@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -86,7 +86,6 @@ function Login() {
       return;
     }
     const { username, password } = getValues();
-    console.log(username, password);
 
     loginMutation({
       variables: {

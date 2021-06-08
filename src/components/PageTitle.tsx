@@ -1,7 +1,11 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 
-function PageTitle({ title }: any) {
+type PageTitleProps = {
+  title: string;
+};
+
+function PageTitle({ title }: PageTitleProps) {
   return (
     <Helmet>
       <title>{title}</title>
@@ -10,7 +14,3 @@ function PageTitle({ title }: any) {
 }
 
 export default PageTitle;
-
-type PageTitleProps = {
-  title: string;
-};

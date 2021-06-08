@@ -1,9 +1,4 @@
-import { ReactNode } from "react";
 import styled from "styled-components";
-
-type ErrorMessageProps = {
-  message: ReactNode;
-};
 
 const SErrorMessage = styled.div`
   color: tomato;
