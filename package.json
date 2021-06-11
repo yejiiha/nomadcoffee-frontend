@@ -24,6 +24,7 @@
     "react-helmet-async": "^1.0.9",
     "react-hook-form": "^7.8.0",
     "react-infinite-scroll-component": "^6.1.0",
+    "react-kakao-maps": "Musma/react-kakao-maps#0.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "styled-components": "^5.3.0",
@@ -58,6 +59,7 @@
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.1.7",
-    "@types/styled-components": "^5.1.9"
+    "@types/styled-components": "^5.1.9",
+    "daum.maps.d.ts": "Musma/daum.maps.d.ts"
   }
 }

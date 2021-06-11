@@ -11,6 +11,7 @@ export const lightTheme: DefaultTheme = {
   inputColor: "rgb(38, 38, 38)",
   orangeColor: "#FF9500",
   darkGray: "#8e8e8e",
+  warningColor: "#f14668",
 };
 
 export const darkTheme: DefaultTheme = {
@@ -23,6 +24,7 @@ export const darkTheme: DefaultTheme = {
   inputColor: "rgb(38, 38, 38)",
   orangeColor: "#FF9500",
   darkGray: "#8e8e8e",
+  warningColor: "#f14668",
 };
 
 export const GlobalStyles = createGlobalStyle`

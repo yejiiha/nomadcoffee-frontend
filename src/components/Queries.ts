@@ -98,3 +98,13 @@ export const DELETE_COFFEE_SHOP_MUTATION = gql`
     }
   }
 `;
+
+export const SEE_ME = gql`
+  query me {
+    me {
+      id
+      username
+      avatarUrl
+    }
+  }
+`;

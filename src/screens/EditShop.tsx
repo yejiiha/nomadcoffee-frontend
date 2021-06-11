@@ -1,13 +1,9 @@
-import { useMutation, useQuery } from "@apollo/client";
 import React, { useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useHistory, useParams } from "react-router";
-import styled from "styled-components";
+import { useParams } from "react-router";
 import PageTitle from "../components/PageTitle";
-import {
-  DELETE_COFFEE_SHOP_MUTATION,
-  SEE_COFFEE_SHOP,
-} from "../components/Queries";
+import { SEE_COFFEE_SHOP } from "../components/Queries";
 import {
   Container,
   Title,
@@ -21,8 +17,6 @@ import {
   CreateBtn,
 } from "./AddShop";
 import { EDIT_COFFEE_SHOP_MUTATION } from "../components/Queries";
-import SubmitBtn from "../components/auth/SubmitBtn";
-import routes from "../routes";
 
 interface IEditCoffeeShopInput {
   name?: string;
@@ -36,12 +30,7 @@ type IdParams = {
   id: string;
 };
 
-const DeleteBtn = styled(SubmitBtn)`
-  background-color: #f14668;
-`;
-
 function EditShop() {
-  const history = useHistory();
   const [message, setMessage] = useState("");
   const [display, setDisplay] = useState(false);
   const { id } = useParams<IdParams>();
@@ -66,9 +55,17 @@ function EditShop() {
     const { name, latitude, longitude, categories, photos } = getValues();
     const {
       data: {
-        editCoffeeShop: { ok },
+        editCoffeeShop: { ok, error },
       },
     } = result;
+
+    if (error) {
+      setDisplay(true);
+      setMessage(error);
+      setTimeout(() => {
+        setDisplay(false);
+      }, 2000);
+    }
 
     if (!ok) {
       return;
@@ -122,39 +119,6 @@ function EditShop() {
     });
   };
 
-  const deleteCoffeeShopUpdate = (cache: any, result: any) => {
-    const {
-      data: {
-        deleteCoffeeShop: { ok },
-      },
-    } = result;
-
-    if (ok) {
-      cache.evict({ id: `CoffeeShop:${Number(id)}` });
-    }
-  };
-
-  const [deleteCoffeeShopMutation, { loading: delLoading }] = useMutation(
-    DELETE_COFFEE_SHOP_MUTATION,
-    {
-      variables: {
-        id: Number(id),
-      },
-      update: deleteCoffeeShopUpdate,
-    }
-  );
-
-  const onDelete = () => {
-    deleteCoffeeShopMutation();
-    history.push(routes.home);
-  };
-
-  const onClick = () => {
-    window.confirm("Are you sure you want to permanently delete Coffee Shop?")
-      ? onDelete()
-      : alert("Cancel");
-  };
-
   const onPhotoChange = (e: any) => {
     const file = e.target.files[0];
     const imageUrl = URL.createObjectURL(file);
@@ -164,7 +128,7 @@ function EditShop() {
   return (
     <>
       <PageTitle title="Edit Coffee Shop | NomadCoffee" />
-      <Container>
+      <Container previewUrl={Boolean(previewUrl)}>
         <Title>Edit Coffee Shop</Title>
         <Form onSubmit={handleSubmit(onValid)}>
           <Row>
@@ -219,13 +183,6 @@ function EditShop() {
             disabled={loading}
           />
         </Form>
-
-        <DeleteBtn
-          type="submit"
-          value={delLoading ? "Loading..." : "Delete"}
-          onClick={onClick}
-        />
-
         <SuccessAlarm active={display}>{message}</SuccessAlarm>
       </Container>
     </>

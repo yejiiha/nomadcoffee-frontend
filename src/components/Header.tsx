@@ -1,12 +1,16 @@
-import { useReactiveVar } from "@apollo/client";
-import { faPlusSquare, faUser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { useReactiveVar } from "@apollo/client";
+import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { isLoggedInVar } from "../apollo";
 import routes from "../routes";
+import Avatar from "./Avatar";
+import HeaderModal from "./HeaderModal";
+import useModal from "./useModal";
+import useUser from "./useUser";
 
 interface IHeaderInput {
   keyword: string;
@@ -88,7 +92,9 @@ const SButton = styled(LButton)`
 `;
 
 function Header() {
+  const { data } = useUser();
   const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const { toggle, visible } = useModal();
   const { register, handleSubmit, getValues } = useForm({
     mode: "onChange",
   });
@@ -118,18 +124,23 @@ function Header() {
         </Column>
         <Column>
           {isLoggedIn ? (
-            <IconContainer>
-              <Icon>
-                <Link to={"/add"}>
-                  <FontAwesomeIcon icon={faPlusSquare} />
-                </Link>
-              </Icon>
-              <Icon>
-                <Link to={"/"}>
-                  <FontAwesomeIcon icon={faUser} />
-                </Link>
-              </Icon>
-            </IconContainer>
+            <>
+              <IconContainer>
+                <Icon>
+                  <Link to={"/add"}>
+                    <FontAwesomeIcon icon={faPlusSquare} />
+                  </Link>
+                </Icon>
+                <Icon onClick={toggle}>
+                  <Avatar url={data?.me?.avatarUrl} />
+                </Icon>
+              </IconContainer>
+              <HeaderModal
+                visible={visible}
+                toggle={toggle}
+                username={data?.me?.username}
+              />
+            </>
           ) : (
             <>
               <Link to={routes.home}>

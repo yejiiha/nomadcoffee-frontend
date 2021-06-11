@@ -1,13 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { faStar } from "@fortawesome/free-regular-svg-icons";
 import {
   faEllipsisH,
   faStar as SolidStar,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Avatar from "./Avatar";
+import { Map, Marker } from "react-kakao-maps";
+import Avatar from "../Avatar";
+import useModal from "../useModal";
+import CoffeeShopUtilModal from "./CoffeeShopUtilModal";
 
 export interface CoffeeShopProps {
   key: number;
@@ -42,8 +44,6 @@ declare global {
 interface CategoryProps {
   starbucks?: boolean;
 }
-
-const { kakao } = window;
 
 const CoffeeShopContainer = styled.div`
   background-color: ${(props) => props.theme.formColor};
@@ -112,6 +112,7 @@ const Photo = styled.img`
 
 const UserInfoContainer = styled.div`
   width: 100%;
+  margin-top: 20px;
   border-top: 1px solid ${(props) => props.theme.borderColor};
   padding: 20px;
   display: flex;
@@ -120,10 +121,14 @@ const UserInfoContainer = styled.div`
 `;
 
 const Column = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   svg {
     cursor: pointer;
+  }
+  &:last-child {
+    flex-direction: column;
   }
 `;
 
@@ -136,6 +141,18 @@ const Username = styled.span`
   }
 `;
 
+const Bubble = styled.div`
+  position: absolute;
+  left: 43%;
+  width: 200px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  color: ${(props) => props.theme.warningColor};
+`;
+
 function CoffeeShop({
   id,
   name,
@@ -146,70 +163,79 @@ function CoffeeShop({
   photos,
   categories,
 }: CoffeeShopProps) {
-  const fLatitude = parseFloat(latitude);
-  const fLongitude = parseFloat(longitude);
-
-  useEffect(() => {
-    let container = document.getElementById("shopMap");
-    let options = {
-      center: new kakao.maps.LatLng(fLatitude, fLongitude),
-      level: 3,
-    };
-
-    let map = new kakao.maps.Map(container, options);
-
-    let markerPosition = new kakao.maps.LatLng(fLatitude, fLongitude);
-
-    // 마커를 생성
-    let marker = new kakao.maps.Marker({
-      position: markerPosition,
-    });
-
-    // 마커를 지도 위에 표시
-    marker.setMap(map);
-  }, [fLatitude, fLongitude]);
+  const [show, setShow] = useState(false);
+  const { toggle, visible } = useModal();
+  const { kakao } = window;
 
   return (
-    <CoffeeShopContainer key={id}>
-      <HeaderContainer>
-        <HeaderColumn />
-        <Name>{name}</Name>
-        <HeaderColumn>
-          <Link to={`/shop/${id}`}>
-            <FontAwesomeIcon icon={faEllipsisH} />
-          </Link>
-        </HeaderColumn>
-      </HeaderContainer>
+    <>
+      <CoffeeShopContainer key={id}>
+        <HeaderContainer>
+          <HeaderColumn />
+          <Name>{name}</Name>
+          <HeaderColumn>
+            <FontAwesomeIcon icon={faEllipsisH} onClick={toggle} />
+            <CoffeeShopUtilModal
+              visible={visible}
+              toggle={toggle}
+              isMine={isMine}
+              id={id}
+            />
+          </HeaderColumn>
+        </HeaderContainer>
 
-      {categories[0]?.name && (
-        <CategoryContainer>
-          {categories.map((c) => (
-            <Category key={c.id}>{c?.name}</Category>
-          ))}
-        </CategoryContainer>
-      )}
+        {categories[0]?.name && (
+          <CategoryContainer>
+            {categories.map((c) => (
+              <Category key={c.id}>{c?.name}</Category>
+            ))}
+          </CategoryContainer>
+        )}
 
-      {latitude && longitude && <MapContainer id="shopMap" />}
+        {latitude && longitude && (
+          <MapContainer>
+            <Map
+              options={{
+                center: new kakao.maps.LatLng(
+                  Number(latitude),
+                  Number(longitude)
+                ),
+              }}
+            >
+              <Marker
+                options={{
+                  position: new kakao.maps.LatLng(
+                    Number(latitude),
+                    Number(longitude)
+                  ),
+                }}
+              />
+            </Map>
+          </MapContainer>
+        )}
 
-      {photos[0]?.url && (
-        <PhotoContainer>
-          <Photo src={photos[0]?.url} />
-        </PhotoContainer>
-      )}
+        {photos[0]?.url && (
+          <PhotoContainer>
+            <Photo src={photos[0]?.url} />
+          </PhotoContainer>
+        )}
 
-      <UserInfoContainer>
-        <Column>
-          <Avatar url={avatarUrl} lg />
-          <Username>{username}</Username>
-        </Column>
-        <Column>
-          <FontAwesomeIcon
-            icon={isFollowing ? SolidStar : faStar}
-            color={isFollowing ? "#FF9500" : "inherit"}
-          />
-        </Column>
-      </UserInfoContainer>
-    </CoffeeShopContainer>
+        <UserInfoContainer>
+          <Column>
+            <Avatar url={avatarUrl} lg />
+            <Username>{username}</Username>
+          </Column>
+          <Column>
+            <FontAwesomeIcon
+              icon={isFollowing ? SolidStar : faStar}
+              color={isFollowing ? "#FF9500" : "inherit"}
+              onClick={() => setShow(!show)}
+            />
+          </Column>
+          {isMine && show && <Bubble>You cannot follow yourself !</Bubble>}
+        </UserInfoContainer>
+      </CoffeeShopContainer>
+    </>
   );
 }
 

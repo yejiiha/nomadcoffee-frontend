@@ -4,7 +4,7 @@ import { logUserOut } from "../apollo";
 import PageTitle from "../components/PageTitle";
 import { useQuery } from "@apollo/client";
 import InfiniteScroll from "react-infinite-scroll-component";
-import CoffeeShop from "../components/CoffeeShop";
+import CoffeeShop from "../components/home/CoffeeShop";
 import Loader from "../components/Loader";
 import { SEE_COFFEE_SHOPS } from "../components/Queries";
 

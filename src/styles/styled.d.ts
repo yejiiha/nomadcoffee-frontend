@@ -11,5 +11,6 @@ declare module "styled-components" {
     inputColor: string;
     orangeColor: string;
     darkGray: string;
+    warningColor: string;
   }
 }
