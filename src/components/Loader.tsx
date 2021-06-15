@@ -1,22 +1,16 @@
 import React from "react";
-import { faCoffee } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled, { keyframes } from "styled-components";
 
 const Animation = keyframes`
-    0%{
-        opacity:0
-    }
-    50%{
-        opacity:1
-    }
-    100%{
-        opacity:0;
-    }
+  0% { 
+    transform: rotate(0deg); 
+  }
+  100% { 
+    transform: rotate(360deg); 
+  }
 `;
 
 const Container = styled.div`
-  animation: ${Animation} 1.5s linear infinite;
   width: 100%;
   height: 100%;
   text-align: center;
@@ -25,10 +19,19 @@ const Container = styled.div`
   align-items: center;
 `;
 
+const Loading = styled.div`
+  border: 4px solid ${(props) => props.theme.borderColor};
+  border-top: 4px solid ${(props) => props.theme.darkGray};
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: ${Animation} 1.5s linear infinite;
+`;
+
 function Loader() {
   return (
     <Container>
-      <FontAwesomeIcon icon={faCoffee} size="3x" color="#FF9500" />
+      <Loading />
     </Container>
   );
 }

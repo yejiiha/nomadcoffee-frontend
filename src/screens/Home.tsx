@@ -1,6 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
-import { logUserOut } from "../apollo";
 import PageTitle from "../components/PageTitle";
 import { useQuery } from "@apollo/client";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -9,7 +7,6 @@ import Loader from "../components/Loader";
 import { SEE_COFFEE_SHOPS } from "../components/Queries";
 
 function Home() {
-  const history = useHistory();
   const { data, loading, fetchMore } = useQuery(SEE_COFFEE_SHOPS, {
     variables: {
       offset: 0,
@@ -43,7 +40,7 @@ function Home() {
               dataLength={data?.seeCoffeeShops?.length}
               next={onLoadMore}
               hasMore={true}
-              loader={<span>Loading...</span>}
+              loader={<Loader />}
             >
               {data?.seeCoffeeShops?.map((shops: any) => (
                 <CoffeeShops {...shops} key={shops.id} />
@@ -51,8 +48,6 @@ function Home() {
             </InfiniteScroll>
           )
         : null}
-
-      <button onClick={() => logUserOut(history)}>Log out now</button>
     </div>
   );
 }

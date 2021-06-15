@@ -1,11 +1,16 @@
 import React from "react";
 import { useReactiveVar } from "@apollo/client";
-import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
+import { faMoon, faPlusSquare, faSun } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { isLoggedInVar } from "../apollo";
+import {
+  darkModeVar,
+  disableDarkMode,
+  enableDarkMode,
+  isLoggedInVar,
+} from "../apollo";
 import routes from "../routes";
 import Avatar from "./Avatar";
 import HeaderModal from "./HeaderModal";
@@ -90,6 +95,25 @@ const SButton = styled(LButton)`
   border: 1px solid ${(props) => props.theme.borderColor};
   font-weight: 600;
 `;
+const DarkModeBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  color: ${(props) => props.theme.darkModeColor};
+  background-color: ${(props) => props.theme.darkModeBgColor};
+  &:focus {
+    border: none;
+    outline: none;
+  }
+  svg {
+    font-size: 20px;
+  }
+`;
 
 function Header() {
   const { data } = useUser();
@@ -98,6 +122,7 @@ function Header() {
   const { register, handleSubmit, getValues } = useForm({
     mode: "onChange",
   });
+  const darkMode = useReactiveVar(darkModeVar);
 
   const onValid: SubmitHandler<IHeaderInput> = () => {
     const { keyword } = getValues();
@@ -126,6 +151,13 @@ function Header() {
           {isLoggedIn ? (
             <>
               <IconContainer>
+                <Icon>
+                  <DarkModeBtn
+                    onClick={darkMode ? disableDarkMode : enableDarkMode}
+                  >
+                    <FontAwesomeIcon icon={darkMode ? faSun : faMoon} />
+                  </DarkModeBtn>
+                </Icon>
                 <Icon>
                   <Link to={"/add"}>
                     <FontAwesomeIcon icon={faPlusSquare} />
