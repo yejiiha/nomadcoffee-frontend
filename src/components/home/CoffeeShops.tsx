@@ -57,14 +57,14 @@ const CoffeeShopContainer = styled.div`
   align-items: center;
 `;
 
-const HeaderContainer = styled.div`
+export const HeaderContainer = styled.div`
   width: 90%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 
-const HeaderColumn = styled.div`
+export const HeaderColumn = styled.div`
   svg {
     cursor: pointer;
   }
@@ -77,11 +77,13 @@ const Name = styled.h1`
   margin-bottom: 20px;
 `;
 
-const CategoryContainer = styled.div`
+export const CategoryContainer = styled.div`
   display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 `;
 
-const Category = styled.div<CategoryProps>`
+export const Category = styled.div<CategoryProps>`
   cursor: pointer;
   padding: 10px 20px;
   background-color: ${(props) => props.theme.orangeColor};
@@ -90,11 +92,11 @@ const Category = styled.div<CategoryProps>`
   margin-right: 10px;
 `;
 
-const MapContainer = styled.div`
+export const MapContainer = styled.div`
   width: 90%;
   height: 300px;
   border-radius: 16px;
-  margin: 30px 0;
+  margin: 20px 0;
   z-index: 0;
 `;
 
@@ -110,7 +112,7 @@ const Photo = styled.img`
   border-radius: 16px;
 `;
 
-const UserInfoContainer = styled.div`
+export const UserInfoContainer = styled.div`
   width: 100%;
   margin-top: 20px;
   border-top: 1px solid ${(props) => props.theme.borderColor};
@@ -120,7 +122,7 @@ const UserInfoContainer = styled.div`
   align-items: center;
 `;
 
-const Column = styled.div`
+export const Column = styled.div`
   position: relative;
   display: flex;
   align-items: center;
@@ -132,7 +134,7 @@ const Column = styled.div`
   }
 `;
 
-const Username = styled.span`
+export const Username = styled.span`
   cursor: pointer;
   margin-left: 20px;
   font-size: 16px;
@@ -141,7 +143,7 @@ const Username = styled.span`
   }
 `;
 
-const Bubble = styled.div`
+export const Bubble = styled.div`
   position: absolute;
   left: 43%;
   width: 200px;
@@ -153,7 +155,7 @@ const Bubble = styled.div`
   color: ${(props) => props.theme.warningColor};
 `;
 
-function CoffeeShop({
+function CoffeeShops({
   id,
   name,
   latitude,
@@ -239,4 +241,4 @@ function CoffeeShop({
   );
 }
 
-export default CoffeeShop;
+export default CoffeeShops;

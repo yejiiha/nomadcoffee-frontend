@@ -26,9 +26,9 @@ interface IEditCoffeeShopInput {
   photos?: any[];
 }
 
-type IdParams = {
+export interface IdParams {
   id: string;
-};
+}
 
 function EditShop() {
   const [message, setMessage] = useState("");

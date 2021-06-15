@@ -4,7 +4,7 @@ import { logUserOut } from "../apollo";
 import PageTitle from "../components/PageTitle";
 import { useQuery } from "@apollo/client";
 import InfiniteScroll from "react-infinite-scroll-component";
-import CoffeeShop from "../components/home/CoffeeShop";
+import CoffeeShops from "../components/home/CoffeeShops";
 import Loader from "../components/Loader";
 import { SEE_COFFEE_SHOPS } from "../components/Queries";
 
@@ -46,7 +46,7 @@ function Home() {
               loader={<span>Loading...</span>}
             >
               {data?.seeCoffeeShops?.map((shops: any) => (
-                <CoffeeShop {...shops} key={shops.id} />
+                <CoffeeShops {...shops} key={shops.id} />
               ))}
             </InfiniteScroll>
           )

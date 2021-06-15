@@ -13,6 +13,7 @@ import routes from "./routes";
 import HomeLayout from "./components/HomeLayout";
 import AddShop from "./screens/AddShop";
 import EditShop from "./screens/EditShop";
+import CoffeeShop from "./screens/CoffeeShop";
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -47,6 +48,11 @@ function App() {
               <Route path={"/shop/:id"}>
                 <HomeLayout>
                   <EditShop />
+                </HomeLayout>
+              </Route>
+              <Route path={"/coffeeshop/:id"}>
+                <HomeLayout>
+                  <CoffeeShop />
                 </HomeLayout>
               </Route>
               <Route>

@@ -96,6 +96,9 @@ const CoffeeShopUtilModal = ({ visible, toggle, isMine, id }: IProp) => {
         <>
           <ModalWrapper>
             <ModalContainer>
+              <Row>
+                <Link to={`/coffeeshop/${id}`}>Go to Coffee Shop</Link>
+              </Row>
               {isMine && (
                 <>
                   <Row>
