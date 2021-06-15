@@ -14,7 +14,7 @@ function useUser() {
     if (data?.me === null) {
       logUserOut(history);
     }
-  }, [data]);
+  }, [data, history]);
   return { data };
 }
 

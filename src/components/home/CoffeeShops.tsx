@@ -182,6 +182,7 @@ function CoffeeShops({
               toggle={toggle}
               isMine={isMine}
               id={id}
+              home={true}
             />
           </HeaderColumn>
         </HeaderContainer>

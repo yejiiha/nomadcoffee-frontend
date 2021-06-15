@@ -10,6 +10,7 @@ interface IProp {
   toggle: () => void;
   isMine: boolean;
   id?: number;
+  home?: boolean;
 }
 
 interface IRowProp {
@@ -58,7 +59,7 @@ const Row = styled.div<IRowProp>`
   }
 `;
 
-const CoffeeShopUtilModal = ({ visible, toggle, isMine, id }: IProp) => {
+const CoffeeShopUtilModal = ({ visible, toggle, isMine, id, home }: IProp) => {
   const history = useHistory();
 
   const deleteCoffeeShopUpdate = (cache: any, result: any) => {
@@ -99,7 +100,7 @@ const CoffeeShopUtilModal = ({ visible, toggle, isMine, id }: IProp) => {
               <Row>
                 <Link to={`/coffeeshop/${id}`}>Go to Coffee Shop</Link>
               </Row>
-              {isMine && (
+              {isMine && !home && (
                 <>
                   <Row>
                     <Link to={`/shop/${id}`}>Edit</Link>

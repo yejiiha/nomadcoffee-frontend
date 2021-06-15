@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import PageTitle from "../components/PageTitle";
 import { SEE_COFFEE_SHOP } from "../components/Queries";
 import {
@@ -19,11 +19,11 @@ import {
 import { EDIT_COFFEE_SHOP_MUTATION } from "../components/Queries";
 
 interface IEditCoffeeShopInput {
-  name?: string;
-  latitude?: string;
-  longitude?: string;
-  categories?: string[];
-  photos?: any[];
+  name: string;
+  latitude: string;
+  longitude: string;
+  categories: string[];
+  photos: any[];
 }
 
 export interface IdParams {
@@ -31,6 +31,7 @@ export interface IdParams {
 }
 
 function EditShop() {
+  const history = useHistory();
   const [message, setMessage] = useState("");
   const [display, setDisplay] = useState(false);
   const { id } = useParams<IdParams>();
@@ -53,6 +54,8 @@ function EditShop() {
 
   const editCoffeeShopUpdate = (cache: any, result: any) => {
     const { name, latitude, longitude, categories, photos } = getValues();
+    const newPhotos = photos[0];
+
     const {
       data: {
         editCoffeeShop: { ok, error },
@@ -88,15 +91,11 @@ function EditShop() {
             return categories;
           },
           photos(prev: any) {
-            return photos && photos[0];
+            return newPhotos;
           },
         },
       });
-      setDisplay(true);
-      setMessage("Coffee Shop is changed.");
-      setTimeout(() => {
-        setDisplay(false);
-      }, 2000);
+      history.push(`/coffeeshop/${Number(id)}`);
     }
   };
 
@@ -107,6 +106,7 @@ function EditShop() {
 
   const onValid: SubmitHandler<IEditCoffeeShopInput> = (data) => {
     const { name, latitude, longitude, categories, photos } = data;
+
     editCoffeeShopMutation({
       variables: {
         id: Number(id),
@@ -114,9 +114,14 @@ function EditShop() {
         latitude,
         longitude,
         categories,
-        photos: photos && photos[0]?.url,
+        photos: photos[0],
       },
     });
+    setDisplay(true);
+    setMessage("Coffee Shop is changed.");
+    setTimeout(() => {
+      setDisplay(false);
+    }, 2000);
   };
 
   const onPhotoChange = (e: any) => {
